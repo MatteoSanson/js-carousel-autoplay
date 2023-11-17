@@ -58,6 +58,22 @@ const next = document.createElement(`div`);
 next.classList.add(`next`);
 thumbNails.append(next);
 
+
+////// bottoni start e stop
+const divButtonAutoPLay = document.createElement('div');
+divButtonAutoPLay.classList.add('buttonAuto');
+container.append(divButtonAutoPLay);
+
+const startButton = document.createElement('button');
+startButton.textContent = 'Start';
+divButtonAutoPLay.append(startButton);
+
+
+const stopButton = document.createElement('button');
+stopButton.textContent = 'Stop';
+divButtonAutoPLay.append(stopButton);
+
+
 // 1) genero la costante listanodi dei div presenti nel dom con la classe che mi interessa   
 const domItem = document.querySelectorAll(`.item`);
 console.log(domItem);
@@ -67,6 +83,13 @@ console.log(domThuItem);
 
 ///////////////// AUTOPLAY
 let autoPlay = setInterval(myAutoPlay, 3000);
+
+////////start autoplay al premere di start
+startButton.addEventListener('click', function (){
+    console.log('ho cliccato start');
+    autoPlay;
+})
+
 function myAutoPlay(){
     domItem[immagineCorrente].classList.remove(`active`);
     domThuItem[immagineCorrente].classList.remove(`attuale`);
@@ -109,4 +132,12 @@ for (let i = 0; i < domThuItem.length; i++) {
     });
 }
 
-////////
+
+
+
+
+////////stop autoplay al premere di stop
+stopButton.addEventListener('click', function (){
+    console.log('ho cliccato stop');
+    clearInterval(autoPlay);
+})

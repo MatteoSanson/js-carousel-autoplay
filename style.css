@@ -106,3 +106,9 @@
     left: 50%;
     transform: translate(-50%) rotate(135deg);
 }
+
+.buttonAuto {
+    margin: 0 auto;
+    display: flex;
+    gap: .9375rem;
+}

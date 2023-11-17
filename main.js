@@ -65,6 +65,17 @@ console.log(domItem);
 const domThuItem = document.querySelectorAll(`.thuItem`);
 console.log(domThuItem);
 
+///////////////// AUTOPLAY
+let autoPlay = setInterval(myAutoPlay, 3000);
+function myAutoPlay(){
+    domItem[immagineCorrente].classList.remove(`active`);
+    domThuItem[immagineCorrente].classList.remove(`attuale`);
+    immagineCorrente = (immagineCorrente + 1) % domItem.length;
+    domItem[immagineCorrente].classList.add(`active`);
+    domThuItem[immagineCorrente].classList.add(`attuale`);
+    return autoPlay;
+}
+//////////////////
 prev.addEventListener('click', function () {
     console.log(`ho cliccato sopra`);
     domItem[immagineCorrente].classList.remove(`active`);
@@ -72,6 +83,7 @@ prev.addEventListener('click', function () {
     immagineCorrente = (immagineCorrente - 1 + domItem.length) % domItem.length;
     domItem[immagineCorrente].classList.add(`active`);
     domThuItem[immagineCorrente].classList.add(`attuale`);
+    autoPlay;
 });
 
 next.addEventListener('click', function () {
@@ -81,19 +93,20 @@ next.addEventListener('click', function () {
     immagineCorrente = (immagineCorrente + 1) % domItem.length;
     domItem[immagineCorrente].classList.add(`active`);
     domThuItem[immagineCorrente].classList.add(`attuale`);
+    autoPlay;
 });
 
-//
+///////////////////// click ad ogni immagine
 for (let i = 0; i < domThuItem.length; i++) {
     domThuItem[i].addEventListener('click', function () {
-        
+        console.log('ho cliccato', domThuItem[i]);
         domItem[immagineCorrente].classList.remove('active');
         domThuItem[immagineCorrente].classList.remove('attuale');
-
         immagineCorrente = i;
-
         domItem[immagineCorrente].classList.add('active');
         domThuItem[immagineCorrente].classList.add('attuale');
+        autoPlay;
     });
 }
 
+////////

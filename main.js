@@ -1,44 +1,43 @@
-'use strict'
-// 1) Creo un array di immagini. 
-const images = [`01.jpg`,`02.jpg`,`03.jpg`,`04.jpg`,`05.jpg`];
-// 2) Per ogni elemento immagine voglio inserirlo nel codice html. 
-const items = document.querySelector(`.items`);
-// variabile immagine che vedo in questo momento 
-let immagineCorrente = 0;
+'use strict';
 
+// 1) Creo un array di immagini.
+const images = ['01.jpg', '02.jpg', '03.jpg', '04.jpg', '05.jpg'];
 
 // 2) Per ogni elemento immagine voglio inserirlo nel codice html.
-for (let i = 0; i < images.length; i++){
-    // creo il mio item div con classe item
-    const item = document.createElement(`div`);
-    item.classList.add(`item`);
+const items = document.querySelector('.items');
+// variabile immagine che vedo in questo momento
+let immagineCorrente = 0;
 
-    // 3) Aggiungo la classe "attiva" al `<div>` sull'immagine corrente. 
-    if (i === immagineCorrente){
-        item.classList.add(`active`);
-    }
-    //creo la mia immagine
-    const img = document.createElement(`img`);
-    img.src = `img/${images[i]}`;
+// 2) Per ogni elemento immagine voglio inserirlo nel codice html.
+for (let i = 0; i < images.length; i++) {
+  // creo il mio item div con classe item
+  const item = document.createElement('div');
+  item.classList.add('item');
 
-    item.append(img);
-    items.append(item);
+  // 3) Aggiungo la classe "attiva" al `<div>` sull'immagine corrente.
+  if (i === immagineCorrente) {
+    item.classList.add('active');
+  }
+  // creo la mia immagine
+  const img = document.createElement('img');
+  img.src = `img/${images[i]}`;
+
+  item.append(img);
+  items.append(item);
 }
 
-
-const container = document.querySelector(`.container`);
+const container = document.querySelector('.container');
 
 const thumbNails = document.createElement('div');
 thumbNails.classList.add('thumbNails');
 container.append(thumbNails);
 
-
 for (let i = 0; i < images.length; i++) {
   const thuItem = document.createElement('div');
   thuItem.classList.add('thuItem');
 
-  if (i === immagineCorrente){
-    thuItem.classList.add(`attuale`);
+  if (i === immagineCorrente) {
+    thuItem.classList.add('attuale');
   }
 
   const thuImg = document.createElement('img');
@@ -48,16 +47,14 @@ for (let i = 0; i < images.length; i++) {
   thumbNails.append(thuItem);
 }
 
-
-// bottoni prev e next 
-const prev = document.createElement(`div`);
-prev.classList.add(`prev`);
+// bottoni prev e next
+const prev = document.createElement('div');
+prev.classList.add('prev');
 thumbNails.append(prev);
 
-const next = document.createElement(`div`);
-next.classList.add(`next`);
+const next = document.createElement('div');
+next.classList.add('next');
 thumbNails.append(next);
-
 
 ////// bottoni start e stop
 const divButtonAutoPLay = document.createElement('div');
@@ -68,76 +65,79 @@ const startButton = document.createElement('button');
 startButton.textContent = 'Start';
 divButtonAutoPLay.append(startButton);
 
-
 const stopButton = document.createElement('button');
 stopButton.textContent = 'Stop';
 divButtonAutoPLay.append(stopButton);
 
-
-// 1) genero la costante listanodi dei div presenti nel dom con la classe che mi interessa   
-const domItem = document.querySelectorAll(`.item`);
+// 1) genero la costante listanodi dei div presenti nel dom con la classe che mi interessa
+const domItem = document.querySelectorAll('.item');
 console.log(domItem);
 
-const domThuItem = document.querySelectorAll(`.thuItem`);
+const domThuItem = document.querySelectorAll('.thuItem');
 console.log(domThuItem);
 
 ///////////////// AUTOPLAY
 let autoPlay = setInterval(myAutoPlay, 3000);
+function myAutoPlay() {
+  domItem[immagineCorrente].classList.remove('active');
+  domThuItem[immagineCorrente].classList.remove('attuale');
+  immagineCorrente = (immagineCorrente + 1) % domItem.length;
+  domItem[immagineCorrente].classList.add('active');
+  domThuItem[immagineCorrente].classList.add('attuale');
+  return autoPlay;
+}
 
-////////start autoplay al premere di start
-startButton.addEventListener('click', function (){
-    console.log('ho cliccato start');
-    autoPlay;
-})
-
-function myAutoPlay(){
-    domItem[immagineCorrente].classList.remove(`active`);
-    domThuItem[immagineCorrente].classList.remove(`attuale`);
-    immagineCorrente = (immagineCorrente + 1) % domItem.length;
-    domItem[immagineCorrente].classList.add(`active`);
-    domThuItem[immagineCorrente].classList.add(`attuale`);
-    return autoPlay;
+// Funzione per avviare l'autoplay.
+function startAutoPlay() {
+    autoPlay = setInterval(myAutoPlay, 3000);
+  }
+  
+// Funzione per fermare l'autoplay.
+function stopAutoPlay() {
+    clearInterval(autoPlay);
 }
 //////////////////
 prev.addEventListener('click', function () {
-    console.log(`ho cliccato sopra`);
-    domItem[immagineCorrente].classList.remove(`active`);
-    domThuItem[immagineCorrente].classList.remove(`attuale`);
-    immagineCorrente = (immagineCorrente - 1 + domItem.length) % domItem.length;
-    domItem[immagineCorrente].classList.add(`active`);
-    domThuItem[immagineCorrente].classList.add(`attuale`);
-    autoPlay;
+  console.log(`ho cliccato sopra`);
+  domItem[immagineCorrente].classList.remove('active');
+  domThuItem[immagineCorrente].classList.remove('attuale');
+  immagineCorrente = (immagineCorrente - 1 + domItem.length) % domItem.length;
+  domItem[immagineCorrente].classList.add('active');
+  domThuItem[immagineCorrente].classList.add('attuale');
+  autoPlay;
 });
 
 next.addEventListener('click', function () {
-    console.log(`ho cliccato sotto`);
-    domItem[immagineCorrente].classList.remove(`active`);
-    domThuItem[immagineCorrente].classList.remove(`attuale`);
-    immagineCorrente = (immagineCorrente + 1) % domItem.length;
-    domItem[immagineCorrente].classList.add(`active`);
-    domThuItem[immagineCorrente].classList.add(`attuale`);
-    autoPlay;
+  console.log(`ho cliccato sotto`);
+  domItem[immagineCorrente].classList.remove('active');
+  domThuItem[immagineCorrente].classList.remove('attuale');
+  immagineCorrente = (immagineCorrente + 1) % domItem.length;
+  domItem[immagineCorrente].classList.add('active');
+  domThuItem[immagineCorrente].classList.add('attuale');
+  autoPlay;
 });
 
 ///////////////////// click ad ogni immagine
 for (let i = 0; i < domThuItem.length; i++) {
-    domThuItem[i].addEventListener('click', function () {
-        console.log('ho cliccato', domThuItem[i]);
-        domItem[immagineCorrente].classList.remove('active');
-        domThuItem[immagineCorrente].classList.remove('attuale');
-        immagineCorrente = i;
-        domItem[immagineCorrente].classList.add('active');
-        domThuItem[immagineCorrente].classList.add('attuale');
-        autoPlay;
-    });
+  domThuItem[i].addEventListener('click', function () {
+    console.log('ho cliccato', domThuItem[i]);
+    domItem[immagineCorrente].classList.remove('active');
+    domThuItem[immagineCorrente].classList.remove('attuale');
+    immagineCorrente = i;
+    domItem[immagineCorrente].classList.add('active');
+    domThuItem[immagineCorrente].classList.add('attuale');
+    autoPlay;
+  });
 }
 
-
-
-
+////////start autoplay al premere di start
+startButton.addEventListener('click', function () {
+  console.log('ho cliccato start');
+  startAutoPlay();
+});
 
 ////////stop autoplay al premere di stop
-stopButton.addEventListener('click', function (){
-    console.log('ho cliccato stop');
-    clearInterval(autoPlay);
-})
+stopButton.addEventListener('click', function () {
+  console.log('ho cliccato stop');
+  stopAutoPlay();
+});

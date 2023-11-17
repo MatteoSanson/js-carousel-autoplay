@@ -82,3 +82,18 @@ next.addEventListener('click', function () {
     domItem[immagineCorrente].classList.add(`active`);
     domThuItem[immagineCorrente].classList.add(`attuale`);
 });
+
+//
+for (let i = 0; i < domThuItem.length; i++) {
+    domThuItem[i].addEventListener('click', function () {
+        
+        domItem[immagineCorrente].classList.remove('active');
+        domThuItem[immagineCorrente].classList.remove('attuale');
+
+        immagineCorrente = i;
+
+        domItem[immagineCorrente].classList.add('active');
+        domThuItem[immagineCorrente].classList.add('attuale');
+    });
+}
+
